@@ -34,7 +34,7 @@ const QuickSearch = () => {
         </div>
 
         <div className="flex flex-col items-center gap-1">
-        <Link href={"/trips/search?text=pousada"} className="flex flex-col items-center hover:text-primary transition-all">
+        <Link href={"/trips/search?text=pousada"} >
           <Image width={35} height={35} src="/inn-icon.png" alt="Pousada" 
            />
           </Link>
