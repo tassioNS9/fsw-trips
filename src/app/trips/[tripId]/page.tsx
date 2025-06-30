@@ -9,7 +9,7 @@ import TripLocation from "./components/TripLocation";
 
 export const metadata = {
   title: "trips",
-}
+};
 
 const getTripDetails = async (tripId: string) => {
   const trip = await prisma.trip.findUnique({
@@ -23,16 +23,24 @@ const getTripDetails = async (tripId: string) => {
 
 const TripDetails = async ({ params }: { params: { tripId: string } }) => {
   const trip = await getTripDetails(params.tripId);
-  console.log(trip)
 
   if (!trip) return null;
 
   return (
     <div className="container mx-auto">
       <TripHeader trip={trip} />
-      <TripReservation pricePerDay={trip.pricePerDay as any} tripId={trip.id} maxGuests={trip.maxGuests} tripStartDate={trip.startDate} tripEndDate={trip.endDate} />
+      <TripReservation
+        pricePerDay={trip.pricePerDay as any}
+        tripId={trip.id}
+        maxGuests={trip.maxGuests}
+        tripStartDate={trip.startDate}
+        tripEndDate={trip.endDate}
+      />
       <TripDescription description={trip.description} />
-      <TripLocation location={trip.location} locationDescription={trip.locationDescription}/>
+      <TripLocation
+        location={trip.location}
+        locationDescription={trip.locationDescription}
+      />
       <TripHighlights highlights={trip.highlights} />
     </div>
   );

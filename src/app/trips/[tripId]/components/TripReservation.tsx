@@ -22,7 +22,13 @@ interface TripReservationForm {
   endDate: Date | null;
 }
 
-const TripReservation = ({ tripId, maxGuests, tripStartDate, tripEndDate, pricePerDay }: TripReservationProps) => {
+const TripReservation = ({
+  tripId,
+  maxGuests,
+  tripStartDate,
+  tripEndDate,
+  pricePerDay,
+}: TripReservationProps) => {
   const {
     register,
     handleSubmit,
@@ -49,36 +55,37 @@ const TripReservation = ({ tripId, maxGuests, tripStartDate, tripEndDate, priceP
     const res = await response.json();
 
     if (res?.error?.code === "TRIP_ALREADY_RESERVED") {
-      setError('startDate', {
+      setError("startDate", {
         type: "manual",
-        message: "Esta data ja está reservada!"
-      })
+        message: "Esta data ja está reservada!",
+      });
 
-     return setError('endDate', {
+      return setError("endDate", {
         type: "manual",
-        message: "Esta data ja está reservada!"
-      })
+        message: "Esta data ja está reservada!",
+      });
     }
 
     if (res?.error?.code === "INVALID_START_DATE") {
-     return setError('startDate', {
+      return setError("startDate", {
         type: "manual",
-        message: "Data Inválida!"
-      })
+        message: "Data Inválida!",
+      });
     }
 
     if (res?.error?.code === "INVALID_END_DATE") {
-
-      return  setError('endDate', {
+      return setError("endDate", {
         type: "manual",
-        message: "Data Inválida!"
-      })
+        message: "Data Inválida!",
+      });
     }
 
     router.push(
-      `/trips/${tripId}/confirmation?startDate=${data.startDate?.toISOString()}&endDate=${data.endDate?.toISOString()}&guests=${data.guests}`
+      `/trips/${tripId}/confirmation?startDate=${data.startDate?.toISOString()}&endDate=${data.endDate?.toISOString()}&guests=${
+        data.guests
+      }`
     );
-    console.log({ res });
+    //console.log({ res });
   };
 
   const startDate = watch("startDate");
@@ -154,12 +161,17 @@ const TripReservation = ({ tripId, maxGuests, tripStartDate, tripEndDate, priceP
       <div className="flex justify-between mt-3">
         <p className="font-medium text-sm text-primaryDarker">Total: </p>
         <p className="font-medium text-sm text-primaryDarker">
-          {startDate && endDate ? `R$${differenceInDays(endDate, startDate) * pricePerDay}` ?? 1 : "R$0"}
+          {startDate && endDate
+            ? `R$${differenceInDays(endDate, startDate) * (pricePerDay ?? 1)}`
+            : "R$0"}
         </p>
       </div>
 
       <div className="pb-10 border-b border-b-grayLighter w-full">
-        <Button onClick={() => handleSubmit(onSubmit)()} className="mt-3 w-full">
+        <Button
+          onClick={() => handleSubmit(onSubmit)()}
+          className="mt-3 w-full"
+        >
           Reservar agora
         </Button>
       </div>
