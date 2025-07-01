@@ -4,9 +4,13 @@ import { Trip } from "@prisma/client";
 import React from "react";
 
 async function getTrips() {
-  const trips = await prisma.trip.findMany({});
-
-  return trips;
+  try {
+    const trips = await prisma.trip.findMany({});
+    return trips;
+  } catch (error) {
+    console.error("Erro ao buscar trips:", error);
+    return []; // Retorna lista vazia se falhar
+  }
 }
 
 const RecommendedTrips = async () => {
@@ -22,10 +26,14 @@ const RecommendedTrips = async () => {
         <div className="w-full h-[1px] bg-grayLighter"></div>
       </div>
 
-      <div className="flex flex-col items-center mt-5 lg:mt-12 gap-5 lg:flex-row gap lg:flex-wrap lg:justify-center  lg:gap-10">
-        {data.map((trip: Trip) => (
-          <TripItem key={trip.id} trip={trip} />
-        ))}
+      <div className="flex flex-col items-center mt-5 lg:mt-12 gap-5 lg:flex-row lg:flex-wrap lg:justify-center  lg:gap-10">
+        {data.length > 0 ? (
+          data.map((trip: Trip) => <TripItem key={trip.id} trip={trip} />)
+        ) : (
+          <p className="text-gray-500 mt-4">
+            Nenhuma viagem disponível no momento.
+          </p>
+        )}
       </div>
     </div>
   );
