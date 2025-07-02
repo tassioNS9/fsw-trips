@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
   const [trip, setTrip] = useState<Trip | null>();
   const [totalPrice, setTotalPrice] = useState<number>(0);
-
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
   const router = useRouter();
 
   const { status, data } = useSession();
@@ -26,7 +26,7 @@ const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
 
   useEffect(() => {
     const fetchTrip = async () => {
-      const response = await fetch(`http://localhost:3000/api/trips/check`, {
+      const response = await fetch(`${baseUrl}/api/trips/check`, {
         method: "POST",
         body: JSON.stringify({
           tripId: params.tripId,
@@ -55,7 +55,7 @@ const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
   if (!trip) return null;
 
   const handleBuyClick = async () => {
-    const res = await fetch("http://localhost:3000/api/trips/reservation", {
+    const res = await fetch(`${baseUrl}/api/trips/reservation`, {
       method: "POST",
       body: Buffer.from(
         JSON.stringify({

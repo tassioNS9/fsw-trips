@@ -1,9 +1,7 @@
-export const dynamic = "force-dynamic";
-
+import React from "react";
 import TripItem from "@/components/TripItem";
 import { prisma } from "@/lib/prisma";
 import { Trip } from "@prisma/client";
-import React from "react";
 
 async function getTrips() {
   try {
@@ -17,7 +15,6 @@ async function getTrips() {
 
 const RecommendedTrips = async () => {
   const data = await getTrips();
-
   return (
     <div className="container mx-auto p-5">
       <div className="flex items-center">
@@ -26,6 +23,7 @@ const RecommendedTrips = async () => {
           Destinos Recomendados
         </h2>
         <div className="w-full h-[1px] bg-grayLighter"></div>
+        {data.length}
       </div>
 
       <div className="flex flex-col items-center mt-5 lg:mt-12 gap-5 lg:flex-row lg:flex-wrap lg:justify-center  lg:gap-10">
