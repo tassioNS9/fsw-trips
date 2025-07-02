@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import TripItem from "@/components/TripItem";
 import { prisma } from "@/lib/prisma";
 import { Trip } from "@prisma/client";
