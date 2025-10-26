@@ -92,7 +92,7 @@ const TripReservation = ({
   const endDate = watch("endDate");
 
   return (
-    <div className="flex flex-col px-5">
+    <div className="flex flex-col px-5 lg:w-1/3">
       <div className="flex gap-4">
         <Controller
           name="startDate"
