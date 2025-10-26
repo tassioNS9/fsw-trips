@@ -23,7 +23,6 @@ const RecommendedTrips = async () => {
           Destinos Recomendados
         </h2>
         <div className="w-full h-[1px] bg-grayLighter"></div>
-        {data.length}
       </div>
 
       <div className="flex flex-col items-center mt-5 lg:mt-12 gap-5 lg:flex-row lg:flex-wrap lg:justify-center  lg:gap-10">

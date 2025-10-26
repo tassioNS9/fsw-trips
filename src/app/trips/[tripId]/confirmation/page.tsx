@@ -50,6 +50,7 @@ const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
     }
 
     fetchTrip();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, searchParams, params, router]);
 
   if (!trip) return null;
