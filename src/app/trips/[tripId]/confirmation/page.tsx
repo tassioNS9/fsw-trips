@@ -17,8 +17,7 @@ import { toast } from "react-toastify";
 const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
   const [trip, setTrip] = useState<Trip | null>();
   const [totalPrice, setTotalPrice] = useState<number>(0);
-  //const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
   const router = useRouter();
 
   const { status, data } = useSession();

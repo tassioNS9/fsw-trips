@@ -40,6 +40,7 @@ const TripReservation = ({
 
   const router = useRouter();
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+
   const onSubmit = async (data: TripReservationForm) => {
     const response = await fetch(`${baseUrl}/api/trips/check`, {
       method: "POST",
