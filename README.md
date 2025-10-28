@@ -19,20 +19,17 @@ Uma aplicação web para reserva de viagens construída com Next.js 13, TypeScri
 
 ```bash
 npm install
+```
 
+3.Configuração das variáveis de ambiente criando um arquivo .env com:
+
+```bash
 DATABASE_URL="sua-url-do-postgresql"
 SHADOW_DATABASE_URL="sua-url-shadow-do-postgresql"
 GOOGLE_CLIENT_ID="seu-client-id"
 GOOGLE_CLIENT_SECRET="seu-client-secret"
 NEXT_PUBLIC_API_URL="http://localhost:3000"
 ```
-
-3.Configuração das variáveis de ambiente criando um arquivo .env com:
-DATABASE_URL="sua-url-do-postgresql"
-SHADOW_DATABASE_URL="sua-url-shadow-do-postgresql"
-GOOGLE_CLIENT_ID="seu-client-id"
-GOOGLE_CLIENT_SECRET="seu-client-secret"
-NEXT_PUBLIC_API_URL="http://localhost:3000"
 
 4.Execute as migrations do Prisma:
 
@@ -52,6 +49,7 @@ npx prisma db seed
 npm run dev
 ```
 
+```bash
 Funcionalidades Principais
 Autenticação com Google
 Listagem de viagens disponíveis
@@ -59,9 +57,12 @@ Sistema de reserva de viagens
 Gestão de reservas do usuário
 Cálculo automático de preços
 Validação de datas de reserva
+```
 
+```bash
 Estrutura do Projeto
 /app - Rotas e componentes da aplicação (Next.js 13 App Router)
 /components - Componentes React reutilizáveis
 lib - Utilitários e configurações (Prisma, Auth)
 /prisma - Schema e migrations do banco de dado
+```
