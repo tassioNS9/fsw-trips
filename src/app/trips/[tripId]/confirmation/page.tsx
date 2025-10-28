@@ -17,7 +17,8 @@ import { toast } from "react-toastify";
 const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
   const [trip, setTrip] = useState<Trip | null>();
   const [totalPrice, setTotalPrice] = useState<number>(0);
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+  //const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+  const baseUrl = "http://localhost:3000";
   const router = useRouter();
 
   const { status, data } = useSession();
@@ -58,17 +59,19 @@ const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
   const handleBuyClick = async () => {
     const res = await fetch(`${baseUrl}/api/trips/reservation`, {
       method: "POST",
-      body: Buffer.from(
-        JSON.stringify({
-          tripId: params.tripId,
-          startDate: searchParams.get("startDate"),
-          endDate: searchParams.get("endDate"),
-          guests: Number(searchParams.get("guests")),
-          userId: (data?.user as any)?.id!,
-          totalPaid: totalPrice,
-        })
-      ),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        tripId: params.tripId,
+        startDate: searchParams.get("startDate"),
+        endDate: searchParams.get("endDate"),
+        guests: Number(searchParams.get("guests")),
+        userId: (data?.user as any)?.id!,
+        totalPaid: totalPrice,
+      }),
     });
+
     if (!res.ok) {
       return toast.error("Ocorreu um erro ao realizar a reserva!", {
         position: "bottom-center",

@@ -43,13 +43,14 @@ const TripReservation = ({
   const onSubmit = async (data: TripReservationForm) => {
     const response = await fetch(`${baseUrl}/api/trips/check`, {
       method: "POST",
-      body: Buffer.from(
-        JSON.stringify({
-          startDate: data.startDate,
-          endDate: data.endDate,
-          tripId,
-        })
-      ),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        startDate: data.startDate,
+        endDate: data.endDate,
+        tripId,
+      }),
     });
 
     const res = await response.json();
@@ -85,11 +86,11 @@ const TripReservation = ({
         data.guests
       }`
     );
-    //console.log({ res });
   };
 
   const startDate = watch("startDate");
   const endDate = watch("endDate");
+  const date = new Date();
 
   return (
     <div className="flex flex-col px-5 lg:w-1/3">
@@ -111,7 +112,7 @@ const TripReservation = ({
               selected={field.value}
               placeholderText="Data de Início"
               className="w-full"
-              minDate={tripStartDate}
+              minDate={tripStartDate < date ? date : tripStartDate}
             />
           )}
         />
@@ -123,6 +124,13 @@ const TripReservation = ({
               value: true,
               message: "Data final é obrigatória.",
             },
+            validate: (value) => {
+              if (value && value < tripStartDate) {
+                return "Data inicial não pode ser antes da data de início da viagem.";
+              } else {
+                return true;
+              }
+            },
           }}
           control={control}
           render={({ field }) => (
@@ -133,8 +141,8 @@ const TripReservation = ({
               selected={field.value}
               placeholderText="Data Final"
               className="w-full"
-              maxDate={tripEndDate}
               minDate={startDate ?? tripStartDate}
+              maxDate={tripEndDate}
             />
           )}
         />
