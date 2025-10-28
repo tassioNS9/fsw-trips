@@ -39,7 +39,7 @@ const MyTrips = () => {
   }, [status]);
 
   return (
-    <div className="container mx-auto p-5">
+    <div className="container mx-auto p-5 min-h-[80vh]">
       <h1 className="font-semibold text-primaryDarker text-xl lg:mb-5">
         Minhas Viagens
       </h1>
