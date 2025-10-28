@@ -125,8 +125,12 @@ const TripReservation = ({
               message: "Data final é obrigatória.",
             },
             validate: (value) => {
-              if (value && value < tripStartDate) {
-                return "Data inicial não pode ser antes da data de início da viagem.";
+              if (
+                value &&
+                startDate &&
+                differenceInDays(value, startDate) <= 0
+              ) {
+                return "Data final não pode ser antes ou na mesma data de início da viagem.";
               } else {
                 return true;
               }
@@ -169,7 +173,7 @@ const TripReservation = ({
       <div className="flex justify-between mt-3">
         <p className="font-medium text-sm text-primaryDarker">Total: </p>
         <p className="font-medium text-sm text-primaryDarker">
-          {startDate && endDate
+          {startDate && endDate && differenceInDays(endDate, startDate) > 0
             ? `R$${differenceInDays(endDate, startDate) * (pricePerDay ?? 1)}`
             : "R$0"}
         </p>

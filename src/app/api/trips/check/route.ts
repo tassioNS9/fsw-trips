@@ -21,6 +21,20 @@ export async function POST(request: Request) {
     );
   }
 
+  // Data de inicio e data de fim são obrigatórias
+  if (!req.startDate || !req.endDate) {
+    return new NextResponse(
+      JSON.stringify({
+        error: {
+          code: "MISSING_DATES",
+        },
+      }),
+      {
+        status: 400,
+      }
+    );
+  }
+
   if (isBefore(new Date(req.startDate), new Date(trip.startDate))) {
     return new NextResponse(
       JSON.stringify({
@@ -40,6 +54,20 @@ export async function POST(request: Request) {
       JSON.stringify({
         error: {
           code: "INVALID_END_DATE",
+        },
+      }),
+      {
+        status: 400,
+      }
+    );
+  }
+
+  // Diferença entre data de fim e data de início precisa ser maior que 0
+  if (differenceInDays(new Date(req.endDate), new Date(req.startDate)) <= 0) {
+    return new NextResponse(
+      JSON.stringify({
+        error: {
+          code: "INVALID_RESERVATION_DATES",
         },
       }),
       {
@@ -75,7 +103,9 @@ export async function POST(request: Request) {
     JSON.stringify({
       success: true,
       trip,
-      totalPrice: differenceInDays(new Date(req.endDate), new Date(req.startDate)) * Number(trip.pricePerDay),
+      totalPrice:
+        differenceInDays(new Date(req.endDate), new Date(req.startDate)) *
+        Number(trip.pricePerDay),
     })
   );
 }
