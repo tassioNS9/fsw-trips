@@ -25,7 +25,5 @@ export async function GET(
     },
   });
 
-  //console.log({ reservations });
-
   return new NextResponse(JSON.stringify(reservations), { status: 200 });
 }
