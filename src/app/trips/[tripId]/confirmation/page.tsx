@@ -13,11 +13,11 @@ import Button from "@/components/Button";
 
 import { Trip } from "@prisma/client";
 import { toast } from "react-toastify";
+import { loadStripe, Stripe } from "@stripe/stripe-js";
 
 const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
   const [trip, setTrip] = useState<Trip | null>();
   const [totalPrice, setTotalPrice] = useState<number>(0);
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
   const router = useRouter();
 
   const { status, data } = useSession();
@@ -26,7 +26,7 @@ const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
 
   useEffect(() => {
     const fetchTrip = async () => {
-      const response = await fetch(`${baseUrl}/api/trips/check`, {
+      const response = await fetch(`/api/trips/check`, {
         method: "POST",
         body: JSON.stringify({
           tripId: params.tripId,
@@ -56,18 +56,17 @@ const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
   if (!trip) return null;
 
   const handleBuyClick = async () => {
-    const res = await fetch(`${baseUrl}/api/trips/reservation`, {
+    const res = await fetch("/api/payment", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify({
         tripId: params.tripId,
         startDate: searchParams.get("startDate"),
         endDate: searchParams.get("endDate"),
         guests: Number(searchParams.get("guests")),
-        userId: (data?.user as any)?.id!,
-        totalPaid: totalPrice,
+        totalPrice,
+        coverImage: trip.coverImage,
+        name: trip.name,
+        description: trip.description,
       }),
     });
 
@@ -77,7 +76,17 @@ const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
       });
     }
 
-    router.push("/");
+    //router.push("/");
+
+    const { sessionId, sessionURl } = await res.json();
+
+    console.log(sessionURl, "sessionURl");
+
+    const stripe = await loadStripe(
+      process.env.NEXT_PUBLIC_STRIPE_KEY as string
+    );
+
+    await stripe?.redirectToCheckout({ sessionId });
 
     toast.success("Reserva realizada com sucesso!", {
       position: "bottom-center",
