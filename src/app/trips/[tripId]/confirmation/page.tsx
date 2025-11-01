@@ -78,9 +78,7 @@ const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
 
     //router.push("/");
 
-    const { sessionId, sessionURl } = await res.json();
-
-    console.log(sessionURl, "sessionURl");
+    const { sessionId } = await res.json();
 
     const stripe = await loadStripe(
       process.env.NEXT_PUBLIC_STRIPE_KEY as string
